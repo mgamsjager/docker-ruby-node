@@ -18,10 +18,8 @@ RUN cd /tmp && \
   rm -f node-v6.9.1-linux-x64.tar.gz  &&\
   cd node-v6.9.1-linux-x64  && \
   pwd && \
-  cp bin/node bin/npm /usr/bin && \
-  node -v 
-#  CXX="g++ -Wno-unused-local-typedefs" make && \
-#  CXX="g++ -Wno-unused-local-typedefs" make install && \
-#  cd /tmp && \
-#  rm -rf /tmp/node-v* && \
-#  npm install -g npm && \
+  cp bin/node /usr/bin && \
+  wget https://npmjs.org/install.sh  && \
+  sh install.sh && \
+  node -v && \
+  npm -v  
