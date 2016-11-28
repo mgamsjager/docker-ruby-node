@@ -1,17 +1,8 @@
-FROM ruby:2.2.4
-MAINTAINER Michael Wallasch <development@po2mc.de>
-ENV REFRESHED_AT 2015-08-07
+FROM ruby:2.3
+MAINTAINER M. Gamsjager <mgamsjager@gmail.com>
+ENV REFRESHED_AT 2016-11-28
 
 RUN apt-get update -qq && apt-get install -y build-essential
-
-# for postgres
-RUN apt-get install -y libpq-dev
-
-# for nokogiri
-RUN apt-get install -y libxml2-dev libxslt1-dev
-
-# for capybara-webkit
-RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
 
 # for node
 RUN apt-get install -y python python-dev python-pip python-virtualenv
@@ -20,21 +11,17 @@ RUN apt-get install -y python python-dev python-pip python-virtualenv
 RUN rm -rf /var/lib/apt/lists/*
 
 # install nodejs
-RUN \
-  cd /tmp && \
-  wget http://nodejs.org/dist/node-latest.tar.gz && \
-  tar xvzf node-latest.tar.gz && \
-  rm -f node-latest.tar.gz && \
-  cd node-v* && \
-  ./configure && \
-  CXX="g++ -Wno-unused-local-typedefs" make && \
-  CXX="g++ -Wno-unused-local-typedefs" make install && \
-  cd /tmp && \
-  rm -rf /tmp/node-v* && \
-  npm install -g npm && \
-  echo '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
 
-WORKDIR /app
-ONBUILD ADD . /app
-
-CMD ["bash"]
+RUN cd /tmp && \
+  wget https://nodejs.org/dist/v6.9.1/node-v6.9.1-linux-x64.tar.gz && \
+  tar xvzf node-v6.9.1-linux-x64.tar.gz  &&\
+  rm -f node-v6.9.1-linux-x64.tar.gz  &&\
+  cd node-v6.9.1-linux-x64  && \
+  pwd && \
+  cp bin/node bin/npm /usr/bin && \
+  node -v 
+#  CXX="g++ -Wno-unused-local-typedefs" make && \
+#  CXX="g++ -Wno-unused-local-typedefs" make install && \
+#  cd /tmp && \
+#  rm -rf /tmp/node-v* && \
+#  npm install -g npm && \
